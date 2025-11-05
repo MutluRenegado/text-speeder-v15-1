@@ -1,8 +1,7 @@
 /* =======================================================
-   ♿ TextSpeeder Accessibility Layer Controller (Handle Version)
+   ♿ TextSpeeder Accessibility + Theme Controller
    ======================================================= */
 document.addEventListener("DOMContentLoaded", () => {
-  // --- Element References ---
   const frame = document.getElementById("accessibilityFrame");
   const overlay = document.getElementById("accessibilityOverlay");
   const toggle = document.getElementById("accessibilityToggle");
@@ -10,20 +9,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = document.getElementById("resetAccessibility");
   const status = document.getElementById("accessibilityStatus");
   const buttons = document.querySelectorAll(".accessibility-panel button[data-mode]");
+  const themeToggle = document.getElementById("themeToggle");
 
-  // --- Load saved mode ---
+  /* =======================================================
+     Restore Saved Accessibility Mode
+     ======================================================= */
   const savedMode = localStorage.getItem("accessibilityMode") || "default";
   if (savedMode !== "default") applyMode(savedMode);
 
   /* =======================================================
-     PANEL CONTROL (Open / Close)
+     Accessibility Panel Controls
      ======================================================= */
   toggle.addEventListener("click", () => {
     const isOpen = frame.classList.toggle("open");
     overlay.style.display = isOpen ? "block" : "none";
-
-    // Small sound or animation feedback (optional future use)
-    console.log(isOpen ? "Accessibility panel opened." : "Accessibility panel closed.");
   });
 
   closeBtn.addEventListener("click", () => {
@@ -37,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =======================================================
-     MODE SELECTION (Theme Switching)
+     Mode Switching
      ======================================================= */
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -48,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =======================================================
-     RESET TO DEFAULT
+     Reset Accessibility Settings
      ======================================================= */
   resetBtn.addEventListener("click", () => {
     document.body.className = "";
@@ -56,30 +55,41 @@ document.addEventListener("DOMContentLoaded", () => {
     status.textContent = "Mode: Default";
   });
 
-  /* =======================================================
-     APPLY MODE FUNCTION
-     ======================================================= */
   function applyMode(mode) {
-    // Clear existing mode classes
-    document.body.className = "";
-
-    // Add selected mode class
+    document.body.className = document.body.classList.contains("dark-mode")
+      ? "dark-mode"
+      : "light-mode";
     document.body.classList.add(mode);
-
-    // Set readable label
-    const readableLabel =
+    const label =
       mode === "accessible-mode"
         ? "Accessible"
-        : mode
-            .replace("colorblind-", "")
-            .replace(/\b\w/g, (c) => c.toUpperCase());
-
-    // Update status text
-    status.textContent = `Mode: ${readableLabel}`;
+        : mode.replace("colorblind-", "").replace(/\b\w/g, (c) => c.toUpperCase());
+    status.textContent = `Mode: ${label}`;
   }
 
   /* =======================================================
-     OPTIONAL: KEYBOARD SHORTCUT (Alt + A)
+     🌙 DARK / LIGHT THEME TOGGLE LOGIC
+     ======================================================= */
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const savedTheme = localStorage.getItem("theme") || (prefersDark ? "dark-mode" : "light-mode");
+  document.body.classList.add(savedTheme);
+  updateThemeIcon(savedTheme);
+
+  themeToggle.addEventListener("click", () => {
+    const isDark = document.body.classList.contains("dark-mode");
+    const nextTheme = isDark ? "light-mode" : "dark-mode";
+    document.body.classList.remove(isDark ? "dark-mode" : "light-mode");
+    document.body.classList.add(nextTheme);
+    localStorage.setItem("theme", nextTheme);
+    updateThemeIcon(nextTheme);
+  });
+
+  function updateThemeIcon(mode) {
+    themeToggle.textContent = mode === "dark-mode" ? "🌙" : "☀️";
+  }
+
+  /* =======================================================
+     Keyboard Shortcut (Alt + A)
      ======================================================= */
   document.addEventListener("keydown", (e) => {
     if (e.altKey && e.key.toLowerCase() === "a") {
@@ -88,5 +98,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  console.log("✅ Accessibility Controller Loaded");
+  console.log("✅ Accessibility + Theme Controller Loaded");
 });
