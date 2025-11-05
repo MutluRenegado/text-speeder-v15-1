@@ -3,177 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>⚡ TextSpeeder v10.1</title>
-  <meta
-    name="description"
-    content="TextSpeeder v10.1 – Speed reading app with accessibility, theme, and reading modes."
-  />
+  <title>⚡ Text Speeder v10.1</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- =======================================================
-       ⚡ HEADER
-       ======================================================= -->
-  <header class="top-bar">
-    <h1>⚡ TextSpeeder v10.1</h1>
-    <div class="top-right">
-      <button id="loadBtn">Load</button>
-      <button id="themeBtn">Dark / Light</button>
-    </div>
+  <!-- HEADER -->
+  <header class="header">
+    <h1>Text Speeder v10.1</h1>
   </header>
 
-  <!-- =======================================================
-       📝 TEXT INPUT & CONTROLS
-       ======================================================= -->
-  <main class="main-content">
-    <label id="fileLabel">📂 No file chosen — accepted: .txt, .pdf, .doc, .docx</label>
-    <textarea id="textInput" placeholder="Paste or load your text here..."></textarea>
-
-    <!-- ⚙️ SETTINGS PANEL -->
-    <div class="control-group">
-      <label>Mode</label>
-      <select id="modeSelect">
-        <option value="flow">Flow</option>
-        <option value="rsvp">RSVP</option>
-      </select>
-
-      <label>Font Type</label>
-      <select id="fontType">
-        <option value="default">Default</option>
-        <option value="serif">Serif</option>
-        <option value="sans-serif">Sans-serif</option>
-      </select>
-
-      <label>Font Size</label>
-      <select id="fontSize">
-        <option value="small">Small</option>
-        <option value="medium" selected>Medium</option>
-        <option value="large">Large</option>
-      </select>
-
-      <label>Font Color</label>
-      <select id="fontColor">
-        <option value="white" selected>White</option>
-        <option value="yellow">Yellow</option>
-        <option value="cyan">Cyan</option>
-      </select>
-
-      <label>Background</label>
-      <select id="bgColor">
-        <option value="darkgray" selected>Dark Gray</option>
-        <option value="black">Black</option>
-        <option value="lightgray">Light Gray</option>
-      </select>
-
-      <label>WPM</label>
-      <input type="number" id="wpmInput" value="200" min="100" max="1000" step="10" />
+  <!-- FILE + THEME TOGGLE -->
+  <div class="file-bar">
+    <span class="file-label">📂 No file chosen — accepted: .txt, .pdf, .doc, .docx</span>
+    <div class="file-buttons">
+      <button class="btn btn-red" id="loadBtn">Load</button>
+      <button class="btn btn-dark" id="themeToggle">Dark / Light</button>
+      <span class="file-mode">(Default)</span>
     </div>
+  </div>
 
-    <!-- 🎮 PLAYBACK BUTTONS -->
-    <div class="playback-buttons">
-      <button id="pauseBtn">Pause</button>
-      <button id="startOverBtn">Restart</button>
-      <button id="toggleLinesBtn">Hide Lines</button>
-      <button id="hideScreenBtn">Hide Screen</button>
-    </div>
+  <!-- TEXT INPUT -->
+  <textarea id="textInput" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."></textarea>
 
-    <!-- =======================================================
-         📖 READING SCREENS
-         ======================================================= -->
+  <!-- SETTINGS -->
+  <div class="settings">
+    <label>Mode</label>
+    <select id="modeSelect">
+      <option value="flow" selected>Flow Only</option>
+      <option value="rsvp">RSVP</option>
+    </select>
 
-    <!-- FLOW SCREEN (Default Active) -->
-    <section id="flowScreen" class="marquee-viewport active">
-      <div id="marquee">Welcome to TextSpeeder! Your reading text will appear here.</div>
-      <div class="flow-line" data-line="1"></div>
-      <div class="flow-line" data-line="2"></div>
-      <div class="flow-line" data-line="3"></div>
-      <div class="flow-line" data-line="4"></div>
-      <div class="flow-line" data-line="5"></div>
-    </section>
+    <label>Font Type</label>
+    <select id="fontType">
+      <option value="default" selected>Default</option>
+      <option value="serif">Serif</option>
+      <option value="sans-serif">Sans-serif</option>
+    </select>
 
-    <!-- RSVP SCREEN (Hidden Initially) -->
-    <section id="rsvpScreen" class="marquee-rsvp hidden">
-      <div id="rsvpWord">Ready?</div>
-    </section>
-  </main>
+    <label>Font Size</label>
+    <select id="fontSize">
+      <option value="small">Small</option>
+      <option value="medium" selected>Medium</option>
+      <option value="large">Large</option>
+    </select>
 
-  <!-- =======================================================
-       ♿ ACCESSIBILITY SIDEBAR
-       ======================================================= -->
-  <aside id="accessibilitySidebar" class="accessibility-sidebar">
-    <div class="accessibility-header">
-      <h3>Accessibility</h3>
-      <button id="closeAccessibility" class="close-btn" aria-label="Close Menu">✖</button>
-    </div>
+    <label>Font Color</label>
+    <select id="fontColor">
+      <option value="white" selected>White</option>
+      <option value="yellow">Yellow</option>
+      <option value="cyan">Cyan</option>
+    </select>
 
-    <div class="accessibility-body">
-      <button data-mode="accessible-mode">🟢 Accessible Mode</button>
-      <button data-mode="colorblind-deuteranopia">🟡 Deuteranopia</button>
-      <button data-mode="colorblind-protanopia">🔴 Protanopia</button>
-      <button data-mode="colorblind-tritanopia">🔵 Tritanopia</button>
-      <hr />
-      <button id="resetAccessibility" class="reset-btn">Reset</button>
-    </div>
-  </aside>
+    <label>Flow Background</label>
+    <select id="bgColor">
+      <option value="darkgray" selected>Dark Gray</option>
+      <option value="black">Black</option>
+      <option value="lightgray">Light Gray</option>
+    </select>
 
-  <!-- Sidebar Toggle Handle -->
-  <button id="accessibilityToggle" class="accessibility-toggle" aria-label="Open Accessibility Menu">
-    <img
-      src="assets/handle/accessibility-handle.png"
-      alt="Accessibility Handle"
-      class="accessibility-icon"
-    />
+    <label>WPM</label>
+    <input type="number" id="wpmInput" value="200" min="100" max="1000" />
+  </div>
+
+  <!-- SPEED SLIDER -->
+  <div class="speed-control">
+    <label>Speed Slider</label>
+    <input type="range" id="speedSlider" min="100" max="800" step="10" value="200" />
+  </div>
+
+  <!-- READING SCREENS -->
+  <section id="flowScreen" class="reading-screen active">
+    <div id="marquee"></div>
+    <div class="flow-line"></div>
+    <div class="flow-line"></div>
+    <div class="flow-line"></div>
+    <div class="flow-line"></div>
+    <div class="flow-line"></div>
+  </section>
+
+  <section id="rsvpScreen" class="reading-screen hidden">
+    <div id="rsvpWord">Ready?</div>
+  </section>
+
+  <!-- PLAYBACK CONTROLS -->
+  <div class="controls">
+    <button id="pauseBtn" class="btn btn-yellow">Pause</button>
+    <button id="startOverBtn" class="btn btn-red">Start Over</button>
+    <button id="toggleLinesBtn" class="btn btn-gray">Hide Lines</button>
+    <button id="hideScreenBtn" class="btn btn-gray">Hide Screen</button>
+  </div>
+
+  <!-- ACCESSIBILITY HANDLE -->
+  <button id="accessibilityToggle" class="accessibility-handle" aria-label="Accessibility Menu">
+    <img src="assets/handle/accessibility-handle.png" alt="Accessibility Handle" />
   </button>
 
-  <!-- =======================================================
-       🌐 FOOTER
-       ======================================================= -->
+  <!-- FOOTER -->
   <footer class="footer">
-    <a href="#">📜 License</a> |
-    <a href="#">🔐 Privacy</a> |
-    <a href="#">📘 Docs</a> |
-    <a href="#">✨ Features</a> |
-    <a href="#">💬 FAQ</a> |
-    <a href="#">📬 Contact</a> |
-    <span>© <span id="currentYear"></span> TextSpeeder</span>
+    <a href="#">📜 License</a>
+    <a href="#">🔐 Privacy</a>
+    <a href="#">📘 Docs</a>
+    <a href="#">✨ Features</a>
+    <a href="#">💬 FAQ</a>
+    <a href="#">🎨 Customization</a>
+    <a href="#">⌨️ Shortcuts</a>
+    <a href="#">🗺️ Roadmap</a>
+    <a href="#">📬 Contact</a>
+    <span class="footer-copy">© TextSpeeder <span id="currentYear"></span>. All rights reserved.</span>
   </footer>
 
-  <!-- =======================================================
-       📜 SCRIPTS
-       ======================================================= -->
+  <script src="main.js"></script>
   <script>
-    // Footer year
     document.getElementById("currentYear").textContent = new Date().getFullYear();
-
-    // Accessibility Sidebar
-    const sidebar = document.getElementById("accessibilitySidebar");
-    const toggleBtn = document.getElementById("accessibilityToggle");
-    const closeBtn = document.getElementById("closeAccessibility");
-    toggleBtn.addEventListener("click", () => sidebar.classList.toggle("open"));
-    closeBtn.addEventListener("click", () => sidebar.classList.remove("open"));
-
-    // Reading Screens
-    const flowScreen = document.getElementById("flowScreen");
-    const rsvpScreen = document.getElementById("rsvpScreen");
-    const modeSelect = document.getElementById("modeSelect");
-
-    function toggleReadingMode() {
-      if (modeSelect.value === "rsvp") {
-        flowScreen.classList.remove("active");
-        flowScreen.classList.add("hidden");
-        rsvpScreen.classList.remove("hidden");
-        rsvpScreen.classList.add("active");
-      } else {
-        rsvpScreen.classList.remove("active");
-        rsvpScreen.classList.add("hidden");
-        flowScreen.classList.remove("hidden");
-        flowScreen.classList.add("active");
-      }
-    }
-
-    modeSelect.addEventListener("change", toggleReadingMode);
-    toggleReadingMode(); // initialize mode
   </script>
 </body>
 </html>
