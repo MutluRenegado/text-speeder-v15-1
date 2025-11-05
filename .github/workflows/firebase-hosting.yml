@@ -23,4 +23,3 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TEXTSPEEDER }}'
           channelId: live
           projectId: text-speeder-v15-1
-
