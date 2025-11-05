@@ -12,9 +12,6 @@
 </head>
 
 <body>
-  <!-- =======================================================
-       ⚡ MAIN APP INTERFACE
-       ======================================================= -->
   <header class="top-bar">
     <h1>⚡ TextSpeeder</h1>
     <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark/Light Mode"></button>
@@ -23,7 +20,7 @@
   <main class="content">
     <textarea id="textInput" placeholder="Paste or load your text here..."></textarea>
 
-    <!-- 🎛️ Settings Panel -->
+    <!-- Settings -->
     <div class="settings-panel">
       <label>Mode</label>
       <select id="modeSelect">
@@ -31,39 +28,11 @@
         <option value="rsvp">RSVP Mode</option>
       </select>
 
-      <label>Font</label>
-      <select id="fontType">
-        <option value="default" selected>Default</option>
-        <option value="serif">Serif</option>
-        <option value="sans-serif">Sans-serif</option>
-      </select>
-
-      <label>Size</label>
-      <select id="fontSize">
-        <option value="small">Small</option>
-        <option value="medium" selected>Medium</option>
-        <option value="large">Large</option>
-      </select>
-
-      <label>Font Color</label>
-      <select id="fontColor">
-        <option value="white">White</option>
-        <option value="black" selected>Black</option>
-        <option value="yellow">Yellow</option>
-      </select>
-
-      <label>Background</label>
-      <select id="bgColor">
-        <option value="darkgray" selected>Dark Gray</option>
-        <option value="lightgray">Light Gray</option>
-        <option value="black">Black</option>
-      </select>
-
       <label>WPM</label>
       <input type="number" id="wpmInput" value="200" min="100" max="1000" step="10" />
     </div>
 
-    <!-- 🎮 Playback Controls -->
+    <!-- Controls -->
     <div class="controls">
       <button id="loadBtn">Load</button>
       <button id="pauseBtn">Pause</button>
@@ -72,21 +41,28 @@
       <button id="hideScreenBtn">Hide Screen</button>
     </div>
 
-    <!-- Reading Screens -->
+    <!-- Screen Container -->
     <div class="screen-container">
+      <!-- FLOW MODE -->
       <section id="flowScreen" class="screen flow active">
         <div id="marquee">Your text will scroll here...</div>
+
+        <!-- 🧭 Adjustable Lines -->
+        <div class="flow-line" data-line="1"></div>
+        <div class="flow-line" data-line="2"></div>
+        <div class="flow-line" data-line="3"></div>
+        <div class="flow-line" data-line="4"></div>
+        <div class="flow-line" data-line="5"></div>
       </section>
 
+      <!-- RSVP MODE -->
       <section id="rsvpScreen" class="screen rsvp">
         <div id="rsvpWord">Your text will display word-by-word here...</div>
       </section>
     </div>
   </main>
 
-  <!-- =======================================================
-       ♿ ACCESSIBILITY LAYER
-       ======================================================= -->
+  <!-- Accessibility -->
   <div id="accessibilityLayer">
     <div id="accessibilityOverlay" class="accessibility-overlay"></div>
     <div id="accessibilityFrame" class="accessibility-frame">
@@ -101,22 +77,15 @@
         <p id="accessibilityStatus" class="status">Mode: Default</p>
       </div>
     </div>
-
-    <!-- Handle -->
     <button id="accessibilityToggle" class="accessibility-toggle">
       <img src="assets/handle/accessibility-handle.png" alt="Accessibility Handle" class="accessibility-icon" />
     </button>
   </div>
 
-  <!-- =======================================================
-       🍪 CONSENT BANNER
-       ======================================================= -->
+  <!-- Consent -->
   <div id="consentBanner" class="consent-banner">
     <div class="consent-content">
-      <p>
-        We use cookies to enhance your experience, analyze usage, and connect
-        with Google Tag Manager (GTM). You can choose to accept or reject.
-      </p>
+      <p>We use cookies to enhance your experience, analyze usage, and connect with Google Tag Manager (GTM).</p>
       <div class="consent-buttons">
         <button id="acceptCookies">Accept</button>
         <button id="rejectCookies" class="reject">Reject</button>
@@ -124,41 +93,30 @@
     </div>
   </div>
 
-  <!-- =======================================================
-       🌐 FOOTER
-       ======================================================= -->
+  <!-- Footer -->
   <footer class="footer">
     <nav class="footer-links">
       <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/Licence" target="_blank">📜 License</a>
-      <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/Privacy-Policy" target="_blank">🔐 Privacy</a>
-      <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki" target="_blank">📘 Docs</a>
-      <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/Features" target="_blank">✨ Features</a>
       <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/FAQ" target="_blank">💬 FAQ</a>
-      <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/Customization" target="_blank">🎨 Customization</a>
-      <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/keyboard%E2%80%90shortcuts" target="_blank">⌨️ Shortcuts</a>
-      <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/Roadmap" target="_blank">🗺️ Roadmap</a>
-      <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/ReadMe" target="_blank">📖 ReadMe</a>
       <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/Contact" target="_blank">📬 Contact</a>
       <span class="footer-divider">|</span>
       <span class="footer-copy">© TextSpeeder <span id="currentYear"></span>. All rights reserved.</span>
     </nav>
   </footer>
 
-  <!-- =======================================================
-       📜 SCRIPTS
-       ======================================================= -->
+  <!-- Scripts -->
   <script src="accessibility.js"></script>
   <script src="consent.js"></script>
   <script>
     document.getElementById("currentYear").textContent = new Date().getFullYear();
 
-    // Theme toggle
+    // 🔄 Theme toggle
     const themeBtn = document.getElementById("themeToggle");
     themeBtn.addEventListener("click", () => {
       document.body.classList.toggle("dark-mode");
     });
 
-    // Mode switcher (Flow / RSVP)
+    // 🎚️ Screen toggle (Flow / RSVP)
     const modeSelect = document.getElementById("modeSelect");
     const flowScreen = document.getElementById("flowScreen");
     const rsvpScreen = document.getElementById("rsvpScreen");
@@ -172,12 +130,40 @@
         flowScreen.classList.remove("active");
       }
     }
+    modeSelect.addEventListener("change", (e) => showScreen(e.target.value));
+    showScreen("flow");
 
-    modeSelect.addEventListener("change", (e) => {
-      showScreen(e.target.value);
+    // 🧭 Draggable lines (Flow screen)
+    const lines = document.querySelectorAll(".flow-line");
+    const flowRect = flowScreen.getBoundingClientRect();
+
+    lines.forEach((line) => {
+      const saved = localStorage.getItem("line-" + line.dataset.line);
+      if (saved) line.style.top = saved;
+
+      let dragging = false;
+      line.addEventListener("mousedown", () => (dragging = true));
+      window.addEventListener("mousemove", (e) => {
+        if (!dragging) return;
+        const y = e.clientY - flowScreen.getBoundingClientRect().top;
+        if (y > 0 && y < flowScreen.offsetHeight) {
+          line.style.top = `${y}px`;
+        }
+      });
+      window.addEventListener("mouseup", () => {
+        if (dragging) {
+          localStorage.setItem("line-" + line.dataset.line, line.style.top);
+          dragging = false;
+        }
+      });
     });
 
-    showScreen("flow"); // Default
+    // Toggle lines visibility
+    const toggleBtn = document.getElementById("toggleLinesBtn");
+    toggleBtn.addEventListener("click", () => {
+      const hidden = flowScreen.classList.toggle("hide-lines");
+      toggleBtn.textContent = hidden ? "Show Lines" : "Hide Lines";
+    });
   </script>
 </body>
 </html>
