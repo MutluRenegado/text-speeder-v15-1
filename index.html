@@ -3,37 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TextSpeeder v10.1</title>
+  <title>⚡ TextSpeeder v10.1</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 🔹 Main UI Container -->
-  <div id="appContainer">
-    <header class="top-bar">
-      <h1>⚡ TextSpeeder</h1>
-    </header>
+  <!-- =======================================================
+       ⚡ MAIN APP INTERFACE
+       ======================================================= -->
+  <header class="top-bar">
+    <h1>⚡ TextSpeeder</h1>
+  </header>
 
-    <main class="content">
-      <textarea id="textInput" placeholder="Paste or load text here..."></textarea>
+  <main class="content">
+    <textarea id="textInput" placeholder="Paste or load your text here..."></textarea>
 
-      <div class="controls">
-        <button id="loadBtn">Load</button>
-        <button id="pauseBtn">Pause</button>
-        <button id="startOverBtn">Restart</button>
-      </div>
+    <div class="controls">
+      <button id="loadBtn">Load</button>
+      <button id="pauseBtn">Pause</button>
+      <button id="startOverBtn">Restart</button>
+    </div>
 
-      <section id="flowScreen" class="screen flow">
-        <div id="marquee"></div>
-      </section>
+    <section id="flowScreen" class="screen flow">
+      <div id="marquee"></div>
+    </section>
 
-      <section id="rsvpScreen" class="screen rsvp">
-        <div id="rsvpWord"></div>
-      </section>
-    </main>
-  </div>
+    <section id="rsvpScreen" class="screen rsvp">
+      <div id="rsvpWord"></div>
+    </section>
+  </main>
 
   <!-- =======================================================
-       ♿ ACCESSIBILITY LAYER (Separate Overlay Plane)
+       ♿ ACCESSIBILITY LAYER (Floating Overlay)
        ======================================================= -->
   <div id="accessibilityLayer">
     <div id="accessibilityOverlay" class="accessibility-overlay"></div>
@@ -58,7 +58,9 @@
     </button>
   </div>
 
+  <!-- =======================================================
+       🔧 Scripts
+       ======================================================= -->
   <script src="accessibility.js"></script>
 </body>
 </html>
-
