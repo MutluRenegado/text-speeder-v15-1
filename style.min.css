@@ -55,3 +55,39 @@ body.dark-mode .consent-banner{background:#1c1c1c;color:#fff;border-top:2px soli
 .footer-links a{color:var(--accent);text-decoration:none;transition:color .25s ease}
 .footer-links a:hover{color:#ffcc00}
 @media(max-width:768px){.controls{flex-direction:column}textarea{height:120px}.footer-links{flex-direction:column;gap:6px;font-size:13px}}
+
+
+
+/* Reader Control Buttons */
+.reader-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  justify-content: center;
+}
+
+.reader-controls button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.reader-controls button:hover {
+  background: #005fcc;
+}
+
+/* Hidden states */
+.hide-lines #marquee,
+.hide-lines #rsvpWord {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.hide-screen .screen-container {
+  display: none;
+}
