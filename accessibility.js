@@ -1,24 +1,29 @@
 /* =======================================================
-   ♿ TextSpeeder Accessibility Layer Controller
+   ♿ TextSpeeder Accessibility Layer Controller (Handle Version)
    ======================================================= */
 document.addEventListener("DOMContentLoaded", () => {
-  const layer = document.getElementById("accessibilityLayer");
-  const frame = layer.querySelector("#accessibilityFrame");
-  const overlay = layer.querySelector("#accessibilityOverlay");
-  const toggle = layer.querySelector("#accessibilityToggle");
-  const closeBtn = layer.querySelector("#closeAccessibility");
-  const resetBtn = layer.querySelector("#resetAccessibility");
-  const status = layer.querySelector("#accessibilityStatus");
-  const buttons = layer.querySelectorAll(".accessibility-panel button");
+  // --- Element References ---
+  const frame = document.getElementById("accessibilityFrame");
+  const overlay = document.getElementById("accessibilityOverlay");
+  const toggle = document.getElementById("accessibilityToggle");
+  const closeBtn = document.getElementById("closeAccessibility");
+  const resetBtn = document.getElementById("resetAccessibility");
+  const status = document.getElementById("accessibilityStatus");
+  const buttons = document.querySelectorAll(".accessibility-panel button[data-mode]");
 
-  // Restore saved mode from localStorage
+  // --- Load saved mode ---
   const savedMode = localStorage.getItem("accessibilityMode") || "default";
   if (savedMode !== "default") applyMode(savedMode);
 
-  /* --- Toggle Panel --- */
+  /* =======================================================
+     PANEL CONTROL (Open / Close)
+     ======================================================= */
   toggle.addEventListener("click", () => {
-    const open = frame.classList.toggle("open");
-    overlay.style.display = open ? "block" : "none";
+    const isOpen = frame.classList.toggle("open");
+    overlay.style.display = isOpen ? "block" : "none";
+
+    // Small sound or animation feedback (optional future use)
+    console.log(isOpen ? "Accessibility panel opened." : "Accessibility panel closed.");
   });
 
   closeBtn.addEventListener("click", () => {
@@ -31,7 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.style.display = "none";
   });
 
-  /* --- Mode Buttons --- */
+  /* =======================================================
+     MODE SELECTION (Theme Switching)
+     ======================================================= */
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const mode = btn.getAttribute("data-mode");
@@ -40,24 +47,46 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* --- Reset --- */
+  /* =======================================================
+     RESET TO DEFAULT
+     ======================================================= */
   resetBtn.addEventListener("click", () => {
     document.body.className = "";
     localStorage.removeItem("accessibilityMode");
     status.textContent = "Mode: Default";
   });
 
-  /* --- Apply Mode Function --- */
+  /* =======================================================
+     APPLY MODE FUNCTION
+     ======================================================= */
   function applyMode(mode) {
+    // Clear existing mode classes
     document.body.className = "";
+
+    // Add selected mode class
     document.body.classList.add(mode);
-    status.textContent =
+
+    // Set readable label
+    const readableLabel =
       mode === "accessible-mode"
-        ? "Mode: Accessible"
-        : "Mode: " +
-          mode
+        ? "Accessible"
+        : mode
             .replace("colorblind-", "")
             .replace(/\b\w/g, (c) => c.toUpperCase());
-  }
-});
 
+    // Update status text
+    status.textContent = `Mode: ${readableLabel}`;
+  }
+
+  /* =======================================================
+     OPTIONAL: KEYBOARD SHORTCUT (Alt + A)
+     ======================================================= */
+  document.addEventListener("keydown", (e) => {
+    if (e.altKey && e.key.toLowerCase() === "a") {
+      const isOpen = frame.classList.toggle("open");
+      overlay.style.display = isOpen ? "block" : "none";
+    }
+  });
+
+  console.log("✅ Accessibility Controller Loaded");
+});
