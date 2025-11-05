@@ -1,5 +1,5 @@
 /* =======================================================
-   ⚡ TEXTSPEEDER BASE STYLES
+   ⚡ TEXTSPEEDER BASE STYLES (with layout fixes)
    ======================================================= */
 :root {
   --accent: #0078ff;
@@ -8,6 +8,7 @@
   --border: #ccc;
 }
 
+/* Global */
 body {
   margin: 0;
   background: var(--bg);
@@ -17,6 +18,76 @@ body {
   transition: background 0.4s ease, color 0.4s ease, filter 0.3s ease;
 }
 
+/* =======================
+   LAYOUT CONTAINER
+   ======================= */
+.app-root {
+  display: flex;
+  flex-direction: column;
+  max-width: 1280px; /* fits laptops */
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* =======================
+   SIDEBAR
+   ======================= */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100%;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+.sidebar.open {
+  transform: translateX(0);
+}
+.sidebar-content {
+  padding: 20px;
+}
+.sidebar-content button {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.sidebar-content button:hover {
+  background: #005fcc;
+}
+
+/* Sidebar toggle button */
+#sidebarToggle {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+#sidebarToggle:hover {
+  background: #005fcc;
+}
+
+/* =======================
+   HEADER
+   ======================= */
 .top-bar {
   background: var(--accent);
   color: #fff;
@@ -25,10 +96,18 @@ body {
   position: relative;
 }
 
+/* =======================
+   MAIN CONTENT
+   ======================= */
 .content {
   padding: 20px;
+  flex: 1;
+  overflow-x: hidden;
 }
 
+/* =======================
+   INPUT + BUTTONS
+   ======================= */
 textarea {
   width: 100%;
   height: 150px;
@@ -37,6 +116,8 @@ textarea {
   border: 1px solid var(--border);
   border-radius: 8px;
   resize: vertical;
+  background: #fff;
+  color: var(--text);
 }
 
 .controls {
@@ -59,29 +140,48 @@ button:hover {
   background: #005fcc;
 }
 
+/* =======================
+   READING SCREENS STACKED
+   ======================= */
 .screen {
-  margin-top: 20px;
-  min-height: 200px;
+  position: absolute;
+  inset: 0;
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 10px;
   background: #fff;
   overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+.screen.active {
+  opacity: 1;
+  z-index: 1;
+}
+.screen-container {
+  position: relative;
+  margin-top: 20px;
+  min-height: 250px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
+/* Flow screen */
 .flow #marquee {
   white-space: nowrap;
 }
 
+/* RSVP screen */
 .rsvp #rsvpWord {
   font-size: 32px;
   text-align: center;
   margin-top: 60px;
 }
 
-/* =======================================================
-   ♿ ACCESSIBILITY LAYER (Floating Plane)
-   ======================================================= */
+/* =======================
+   ACCESSIBILITY LAYER
+   ======================= */
 #accessibilityLayer {
   position: fixed;
   inset: 0;
@@ -116,6 +216,7 @@ button:hover {
   right: 0;
 }
 
+/* Accessibility toggle */
 .accessibility-toggle {
   position: fixed;
   top: 45%;
@@ -138,6 +239,7 @@ button:hover {
   transform: scale(1.1);
 }
 
+/* Accessibility panel */
 .accessibility-panel button {
   display: block;
   width: 100%;
@@ -171,9 +273,9 @@ button:hover {
   background: #e74c3c;
 }
 
-/* =======================================================
-   🌙 DARK / LIGHT THEME TOGGLE
-   ======================================================= */
+/* =======================
+   THEME TOGGLE
+   ======================= */
 .theme-toggle {
   position: absolute;
   top: 12px;
@@ -191,15 +293,13 @@ button:hover {
   transform: scale(1.1);
 }
 
-/* LIGHT MODE */
+/* Light / Dark modes */
 body.light-mode {
   --bg: #ffffff;
   --text: #1a1a1a;
   --accent: #0078ff;
   --border: #ccc;
 }
-
-/* DARK MODE */
 body.dark-mode {
   --bg: #1b1b1b;
   --text: #f1f1f1;
@@ -217,9 +317,9 @@ body.dark-mode textarea {
   border-color: #444;
 }
 
-/* =======================================================
-   ♿ ACCESSIBILITY COLOR THEMES
-   ======================================================= */
+/* =======================
+   ACCESSIBILITY THEMES
+   ======================= */
 body.accessible-mode {
   --bg: #ffffff;
   --text: #000000;
@@ -227,7 +327,6 @@ body.accessible-mode {
   --border: #000;
   filter: none;
 }
-
 body.colorblind-deuteranopia {
   --bg: #f9fafb;
   --text: #101010;
@@ -235,7 +334,6 @@ body.colorblind-deuteranopia {
   --border: #555;
   filter: hue-rotate(-20deg) saturate(0.8);
 }
-
 body.colorblind-protanopia {
   --bg: #f5f7fa;
   --text: #1a1a1a;
@@ -243,7 +341,6 @@ body.colorblind-protanopia {
   --border: #444;
   filter: hue-rotate(-35deg) saturate(0.7);
 }
-
 body.colorblind-tritanopia {
   --bg: #f9f9ff;
   --text: #111;
@@ -252,9 +349,9 @@ body.colorblind-tritanopia {
   filter: hue-rotate(60deg) saturate(0.8);
 }
 
-/* =======================================================
-   🍪 CONSENT BANNER (Final Layer)
-   ======================================================= */
+/* =======================
+   CONSENT BANNER
+   ======================= */
 .consent-banner {
   position: fixed;
   bottom: 0;
@@ -266,63 +363,20 @@ body.colorblind-tritanopia {
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
   padding: 16px 24px;
   display: none;
-  z-index: 10050; /* Highest layer */
+  z-index: 10050;
   transition: transform 0.4s ease, opacity 0.3s ease;
   transform: translateY(100%);
   opacity: 0;
 }
-
 .consent-banner.show {
   display: block;
   transform: translateY(0);
   opacity: 1;
 }
 
-.consent-content {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.consent-buttons {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.consent-buttons button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  cursor: pointer;
-  color: #fff;
-  background: var(--accent);
-  transition: 0.3s;
-}
-.consent-buttons button:hover {
-  opacity: 0.85;
-}
-
-.consent-buttons .reject {
-  background: #c0392b;
-}
-.consent-buttons .reject:hover {
-  background: #e74c3c;
-}
-
-/* Match themes automatically */
-body.dark-mode .consent-banner {
-  background: #1c1c1c;
-  color: #fff;
-  border-top: 2px solid var(--accent);
-}
-
-/* =======================================================
-   🌐 FOOTER STYLES — Theme-Aware + Responsive
-   ======================================================= */
+/* =======================
+   FOOTER
+   ======================= */
 .footer {
   width: 100%;
   text-align: center;
@@ -331,10 +385,8 @@ body.dark-mode .consent-banner {
   border-top: 1px solid var(--border);
   color: var(--text);
   font-size: 14px;
-  position: relative;
   z-index: 10;
 }
-
 .footer-links {
   display: flex;
   flex-wrap: wrap;
@@ -344,52 +396,28 @@ body.dark-mode .consent-banner {
   line-height: 1.6;
   padding: 0 10px;
 }
-
 .footer-links a {
   color: var(--accent);
   text-decoration: none;
   transition: color 0.25s ease;
 }
-
 .footer-links a:hover {
   color: #ffcc00;
 }
 
-.footer-divider {
-  opacity: 0.4;
-  margin: 0 6px;
-}
-
-.footer-copy {
-  opacity: 0.7;
-}
-
-/* Match theme colors dynamically */
-body.dark-mode .footer {
-  background: #111;
-  border-color: #333;
-  color: #ddd;
-}
-body.dark-mode .footer-links a {
-  color: #66b2ff;
-}
-body.dark-mode .footer-links a:hover {
-  color: #ffdf5e;
-}
-
-/* Responsive Adjustments */
+/* =======================
+   RESPONSIVE ADJUSTMENTS
+   ======================= */
 @media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+  }
+  textarea {
+    height: 120px;
+  }
   .footer-links {
     flex-direction: column;
     gap: 6px;
     font-size: 13px;
-  }
-
-  .controls {
-    flex-direction: column;
-  }
-
-  textarea {
-    height: 120px;
   }
 }
