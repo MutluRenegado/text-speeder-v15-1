@@ -1,48 +1,62 @@
-text-speederv15-1/
+TextSpeeder/
+│
+├── .firebaserc
+├── firestore.rules
+│
+├── index.html
+├── style.css
+├── accessibility.js
+├── consent.js
+│
 ├── src/
-│   ├── firebase/
-│   │   ├── firebaseConfig.js         # Firebase setup & Firestore export
-│   │   └── firestore.rules           # Firestore security rules (optional)
-│   │
-│   ├── services/
-│   │   ├── userService.js            # CRUD for /users
-│   │   ├── textService.js            # CRUD for /texts
-│   │   ├── sessionService.js         # CRUD for /users/{userId}/readingSessions
-│   │   └── leaderboardService.js     # CRUD for /leaderboards
-│   │
-│   ├── hooks/
-│   │   ├── useAuth.js                # Manage Firebase Auth state
-│   │   ├── useUserData.js            # Fetch user profile + stats
-│   │   ├── useTexts.js               # Fetch training texts
-│   │   └── useSession.js             # Handle reading sessions
-│   │
-│   ├── types/
-│   │   └── firestoreModels.js        # Define Firestore data models
-│   │
-│   ├── utils/
-│   │   ├── calculateWPM.js           # Compute words per minute
-│   │   ├── formatTime.js             # Format timers and durations
-│   │   └── constants.js              # Static text categories, difficulties, etc.
+│   ├── App.js
+│   ├── main.js
 │   │
 │   ├── components/
-│   │   ├── TextReader.js             # Displays text to user with speed controls
-│   │   ├── SpeedMeter.js             # Real-time WPM visualization
-│   │   ├── ProgressBar.js
-│   │   └── UI/
-│   │       ├── Button.js
-│   │       └── Card.js
+│   │   ├── UI/
+│   │   │   ├── Button.js
+│   │   │   ├── Card.js
+│   │   │   ├── ProgressBar.js
+│   │   │   ├── SpeedMeter.js
+│   │   │   └── TextReader.js
+│   │   │
+│   │   └── ClassicReader.js
+│   │
+│   ├── contexts/
+│   │   └── AuthContext.jsx
+│   │
+│   ├── firebase/
+│   │   └── firebase.config.js
+│   │
+│   ├── hooks/
+│   │   ├── useAuth.js
+│   │   ├── useSession.js
+│   │   ├── useTexts.js
+│   │   └── useUserData.js
 │   │
 │   ├── screens/
 │   │   ├── HomeScreen.js
-│   │   ├── ReadingSessionScreen.js
-│   │   ├── ResultsScreen.js
+│   │   ├── LeaderboardScreen.js
 │   │   ├── ProfileScreen.js
-│   │   └── LeaderboardScreen.js
+│   │   ├── ReadingSessionScreen.js
+│   │   └── ResultsScreen.js
 │   │
-│   ├── App.js
-│   └── main.js
+│   ├── services/
+│   │   ├── leaderboardService.js
+│   │   ├── sessionService.js
+│   │   ├── textService.js
+│   │   └── userService.js
+│   │
+│   ├── types/
+│   │   └── firestoreModels.js
+│   │
+│   └── utils/
+│       ├── calculateWPM.js
+│       ├── constants.js
+│       └── formatTime.js
 │
-├── firebase.json
-├── .firebaserc
-├── package.json
-└── README.md
+├── assets/
+│   └── handle/
+│       └── accessibility-handle.png
+│
+└── project-structure.txt   ← (optional: this file to document structure)
