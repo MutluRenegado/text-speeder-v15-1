@@ -22,6 +22,7 @@ body {
   color: #fff;
   padding: 12px 20px;
   text-align: center;
+  position: relative;
 }
 
 .content {
@@ -78,7 +79,7 @@ button:hover {
 }
 
 /* =======================================================
-   ♿ ACCESSIBILITY LAYER (Separate Floating Plane)
+   ♿ ACCESSIBILITY LAYER (Floating Plane)
    ======================================================= */
 #accessibilityLayer {
   position: fixed;
@@ -87,7 +88,6 @@ button:hover {
   pointer-events: none;
 }
 
-/* Overlay */
 .accessibility-overlay {
   display: none;
   position: fixed;
@@ -97,7 +97,6 @@ button:hover {
   z-index: 10000;
 }
 
-/* Sidebar */
 .accessibility-frame {
   position: fixed;
   right: -260px;
@@ -116,7 +115,6 @@ button:hover {
   right: 0;
 }
 
-/* Floating Handle Button */
 .accessibility-toggle {
   position: fixed;
   top: 45%;
@@ -139,7 +137,6 @@ button:hover {
   transform: scale(1.1);
 }
 
-/* Inside Panel Buttons */
 .accessibility-panel button {
   display: block;
   width: 100%;
@@ -170,50 +167,4 @@ button:hover {
   margin-top: 12px;
 }
 .reset-btn:hover {
-  background: #e74c3c;
-}
-
-.status {
-  margin-top: 15px;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-/* =======================================================
-   ♿ ACCESSIBILITY COLOR THEMES
-   ======================================================= */
-body.accessible-mode {
-  --bg: #ffffff;
-  --text: #000000;
-  --accent: #0066ff;
-  --border: #000;
-  filter: none;
-}
-
-body.colorblind-deuteranopia {
-  --bg: #f9fafb;
-  --text: #101010;
-  --accent: #007b8a;
-  --border: #555;
-  filter: hue-rotate(-20deg) saturate(0.8);
-}
-
-body.colorblind-protanopia {
-  --bg: #f5f7fa;
-  --text: #1a1a1a;
-  --accent: #0082cc;
-  --border: #444;
-  filter: hue-rotate(-35deg) saturate(0.7);
-}
-
-body.colorblind-tritanopia {
-  --bg: #f9f9ff;
-  --text: #111;
-  --accent: #cc8800;
-  --border: #333;
-  filter: hue-rotate(60deg) saturate(0.8);
-}
-
-body {
-  transition: background 0.4s ease, color 0.4s ease, filter 0.3s ease;
-}
+  background: #e74
