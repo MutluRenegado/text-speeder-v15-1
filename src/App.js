@@ -84,24 +84,35 @@ export default function App() {
         </div>
       </header>
 
-      {/* === SIDEBAR === */}
-      <aside className={`sidebar ${sidebarOpen ? "sidebar-open" : ""}`}>
-        <h2 className="sidebar-title">Navigation</h2>
-        <div className="sidebar-content">
-          <button onClick={() => setView("home")}>🏠 Home</button>
-          <button onClick={() => setView("profile")}>👤 Profile</button>
-          <button onClick={() => setView("leaderboard")}>🏆 Leaderboard</button>
-          <button onClick={() => setSidebarOpen(false)}>✖ Close</button>
-        </div>
-      </aside>
+  /* -------------------------
+   Sidebar open / close
+------------------------- */
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const sidebarToggleHeader = document.getElementById('sidebarToggleHeader');
+const closeSidebarBtn = document.getElementById('closeSidebar');
 
-      {/* === MAIN === */}
-      <main className="main-content">{content}</main>
-
-      {/* === FOOTER === */}
-      <footer className="footer">
-        © {new Date().getFullYear()} TextSpeeder. All rights reserved.
-      </footer>
-    </div>
-  );
+// open sidebar
+function openSidebar() {
+  sidebar.classList.remove('translate-x-full');
+  sidebarOverlay.classList.remove('hidden');
 }
+
+// close sidebar
+function closeSidebar() {
+  sidebar.classList.add('translate-x-full');
+  sidebarOverlay.classList.add('hidden');
+}
+
+// toggle via hamburger button
+if (sidebarToggleHeader) {
+  sidebarToggleHeader.addEventListener('click', () => {
+    const isHidden = sidebar.classList.contains('translate-x-full');
+    if (isHidden) openSidebar();
+    else closeSidebar();
+  });
+}
+
+// close button and overlay
+if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
+if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
