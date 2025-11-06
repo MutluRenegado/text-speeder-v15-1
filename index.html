@@ -506,5 +506,18 @@
     // expose for debugging
     window.ts = { loadTextString, startTicker, stopTicker, restart };
   </script>
+  <!-- ♿ Accessibility Handle (opens accessibility panel only) -->
+<button
+  id="accessibilityHandle"
+  class="fixed top-1/2 right-0 transform -translate-y-1/2 z-50 bg-[#b6004a] p-2 rounded-l-lg hover:bg-[#d9155a] transition"
+  aria-label="Open Accessibility"
+>
+  <img
+    src="src/handle/accessibility-handle.png"
+    alt="Accessibility Handle"
+    class="w-8 h-8"
+  />
+</button>
+
 </body>
 </html>
