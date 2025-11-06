@@ -1,123 +1,56 @@
 import React, { useState } from "react";
-import "./TextSpeederLayout.css"; // CSS below
+import "./AppLayout.css";
 
-const TextSpeederLayout = () => {
+export default function TextSpeederLayout({ children, onToggleTheme }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeScreen, setActiveScreen] = useState("A");
-  const [wpm, setWpm] = useState(300);
 
   return (
     <div className="app-root">
-      {/* Sidebar Toggle */}
-      <button
-        className="sidebar-toggle"
-        onClick={() => setSidebarOpen((s) => !s)}
-      >
-        ☰ Menu
-      </button>
+      {/* Top Header */}
+      <header className="top-bar">
+        <div className="logo">TEXTSPEEDER</div>
+
+        <div className="top-controls">
+          <button
+            className="theme-toggle"
+            onClick={onToggleTheme}
+            aria-label="Toggle dark/light theme"
+          >
+            dark/light
+          </button>
+
+          <button
+            id="sidebarToggle"
+            className="menu-toggle"
+            onClick={() => setSidebarOpen((prev) => !prev)}
+            aria-label="Toggle menu"
+          >
+            ☰ Menu
+          </button>
+        </div>
+      </header>
 
       {/* Sidebar */}
-      <aside className={`sidebar ${sidebarOpen ? "" : "sidebar--closed"}`}>
-        <h2>Sidebar</h2>
-        <p className="small-label">
-          Your sidebar content here — when closed, it disappears completely.
-        </p>
+      <aside
+        className={`sidebar ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}`}
+      >
+        <div className="sidebar-content">
+          <h2 className="sidebar-title">Navigation</h2>
+          <button onClick={() => setSidebarOpen(false)}>🏠 Home</button>
+          <button onClick={() => setSidebarOpen(false)}>📚 Reading</button>
+          <button onClick={() => setSidebarOpen(false)}>👤 Profile</button>
+          <button onClick={() => setSidebarOpen(false)}>🏆 Leaderboard</button>
+          <button onClick={() => setSidebarOpen(false)}>✖ Close</button>
+        </div>
       </aside>
 
-      {/* Main Section */}
-      <main className="main">
-        <header className="top-bar">
-          <div>
-            <h1>⚡ TextSpeeder</h1>
-            <small>Dual reading screens stacked behind each other</small>
-          </div>
-        </header>
+      {/* Main Content */}
+      <main className="main-content">{children}</main>
 
-        {/* Reader Area */}
-        <section className="reader-wrapper">
-          <div className="reader-toolbar">
-            {/* Toggle screens */}
-            <button
-              className="btn btn-ghost"
-              onClick={() => setActiveScreen("A")}
-            >
-              Screen A
-            </button>
-            <button
-              className="btn btn-ghost"
-              onClick={() => setActiveScreen("B")}
-            >
-              Screen B
-            </button>
-
-            {/* Placeholders for next step (Start, Pause, Reset) */}
-            <button className="btn btn-primary">Start</button>
-            <button className="btn btn-ghost">Pause</button>
-            <button className="btn btn-ghost">Reset</button>
-          </div>
-
-          {/* Reader Stack */}
-          <div className="reader-stack">
-            <div
-              className={`reader-screen ${
-                activeScreen === "A" ? "reader-screen--active" : ""
-              }`}
-            >
-              <div className="reader-text">
-                <span>Screen A:</span> <span className="highlight">Active</span>
-              </div>
-            </div>
-
-            <div
-              className={`reader-screen ${
-                activeScreen === "B" ? "reader-screen--active" : ""
-              }`}
-            >
-              <div className="reader-text">
-                <span>Screen B:</span>{" "}
-                <span className="highlight">Hidden behind A</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Bottom controls */}
-        <section className="bottom-area">
-          <div className="card">
-            <h3>Input Text</h3>
-            <textarea
-              placeholder="Paste or type text you want to speed-read..."
-            />
-          </div>
-
-          <div className="card">
-            <h3>Settings</h3>
-            <div className="slider-row">
-              <span className="small-label">
-                Speed (WPM): <span>{wpm}</span>
-              </span>
-              <input
-                type="range"
-                min="120"
-                max="900"
-                value={wpm}
-                onChange={(e) => setWpm(e.target.value)}
-              />
-            </div>
-            <div className="slider-row">
-              <span className="small-label">Chunk size:</span>
-              <select>
-                <option value="1">1 word</option>
-                <option value="2">2 words</option>
-                <option value="3">3 words</option>
-              </select>
-            </div>
-          </div>
-        </section>
-      </main>
+      {/* Footer */}
+      <footer className="footer">
+        <p>TextSpeeder © 2025 — All Rights Reserved</p>
+      </footer>
     </div>
   );
-};
-
-export default TextSpeederLayout;
-
+}
