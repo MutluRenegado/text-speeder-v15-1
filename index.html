@@ -1,168 +1,253 @@
-<script>
-/* =======================================================
-   ⚡ TEXTSPEEDER v15 — MAIN SCRIPT (Complete Version)
-   ======================================================= */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚡ TextSpeeder v15</title>
 
-/* -----------------------------------------------
-   1. INITIALIZE FOOTER YEAR
------------------------------------------------ */
-const yearEl = document.getElementById("currentYear");
-if (yearEl) yearEl.textContent = new Date().getFullYear();
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-/* -----------------------------------------------
-   2. ACCESSIBILITY SIDEBAR + HANDLE
------------------------------------------------ */
-const accessibilityFrame = document.getElementById("accessibilityFrame");
-const accessibilityOverlay = document.getElementById("accessibilityOverlay");
-const accessibilityToggle = document.getElementById("accessibilityToggle");
-const closeAccessibility = document.getElementById("closeAccessibility");
-const statusText = document.getElementById("accessibilityStatus");
+<body class="light-mode">
+  <div class="app-root">
 
-// Toggle sidebar open/close
-if (accessibilityToggle && accessibilityFrame) {
-  accessibilityToggle.addEventListener("click", () => {
-    accessibilityFrame.classList.toggle("open");
-    accessibilityOverlay.style.display = accessibilityFrame.classList.contains("open")
-      ? "block"
-      : "none";
-  });
-}
+    <!-- =======================
+         HEADER + SIDEBAR TOGGLE
+         ======================= -->
+    <header class="top-bar">
+      <button id="sidebarToggle">☰ Menu</button>
+      <h1>⚡ TextSpeeder</h1>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle Theme"></button>
+    </header>
 
-// Close sidebar
-if (closeAccessibility) {
-  closeAccessibility.addEventListener("click", () => {
-    accessibilityFrame.classList.remove("open");
-    accessibilityOverlay.style.display = "none";
-  });
-}
+    <!-- =======================
+         LEFT SIDEBAR MENU
+         ======================= -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-content">
+        <button onclick="alert('Go Home')">🏠 Home</button>
+        <button onclick="alert('Profile')">👤 Profile</button>
+        <button onclick="alert('Leaderboard')">🏆 Leaderboard</button>
+        <button id="closeSidebar" class="reset-btn">✖ Close</button>
+      </div>
+    </aside>
 
-// Click on overlay closes it
-if (accessibilityOverlay) {
-  accessibilityOverlay.addEventListener("click", () => {
-    accessibilityFrame.classList.remove("open");
-    accessibilityOverlay.style.display = "none";
-  });
-}
+    <!-- =======================
+         MAIN CONTENT AREA
+         ======================= -->
+    <main class="content">
 
-/* -----------------------------------------------
-   3. ACCESSIBILITY MODES
------------------------------------------------ */
-const accessibilityButtons = document.querySelectorAll("[data-mode]");
-const resetBtn = document.getElementById("resetAccessibility");
+      <!-- 📝 INPUT TEXT AREA -->
+      <textarea
+        id="textInput"
+        placeholder="Paste or load your text here..."
+      ></textarea>
 
-if (accessibilityButtons.length > 0) {
-  accessibilityButtons.forEach((btn) => {
+      <!-- 🎛 CONTROLS -->
+      <div class="controls">
+        <button id="loadBtn">Load</button>
+        <button id="pauseBtn">Pause</button>
+        <button id="startOverBtn">Restart</button>
+      </div>
+
+      <!-- 🧠 FLOW/RSVP SCREEN CONTAINER -->
+      <div class="screen-container">
+        <!-- Flow screen -->
+        <section id="flowScreen" class="screen flow active">
+          <div id="marquee">Flow Mode Example</div>
+        </section>
+
+        <!-- RSVP screen -->
+        <section id="rsvpScreen" class="screen rsvp">
+          <div id="rsvpWord">RSVP Mode Example</div>
+        </section>
+      </div>
+
+      <!-- 🌀 READING MODE BUTTONS -->
+      <div class="reader-controls">
+        <button id="flowModeBtn">Flow</button>
+        <button id="flowHighlightBtn">Flow + Highlight</button>
+        <button id="rsvpModeBtn">RSVP</button>
+      </div>
+    </main>
+
+    <!-- =======================
+         ACCESSIBILITY OVERLAY + PANEL
+         ======================= -->
+    <div id="accessibilityLayer">
+      <div id="accessibilityOverlay" class="accessibility-overlay"></div>
+
+      <div id="accessibilityFrame" class="accessibility-frame">
+        <div class="accessibility-panel">
+          <button id="closeAccessibility" class="close-btn">✖</button>
+          <h3>♿ Accessibility Options</h3>
+
+          <button data-mode="accessible-mode">🟢 Accessible Mode</button>
+          <button data-mode="colorblind-deuteranopia">🟡 Deuteranopia</button>
+          <button data-mode="colorblind-protanopia">🔴 Protanopia</button>
+          <button data-mode="colorblind-tritanopia">🔵 Tritanopia</button>
+
+          <button id="resetAccessibility" class="reset-btn">Reset</button>
+          <p id="accessibilityStatus" class="text-xs mt-3 opacity-80">
+            Current Mode: Default
+          </p>
+        </div>
+      </div>
+
+      <!-- Toggle Handle -->
+      <button id="accessibilityToggle" class="accessibility-toggle">
+        <img
+          src="assets/handle/accessibility-handle.png"
+          alt="Accessibility Handle"
+          class="accessibility-icon"
+        />
+      </button>
+    </div>
+
+    <!-- =======================
+         FOOTER
+         ======================= -->
+    <footer class="footer">
+      <nav class="footer-links">
+        <span>© <span id="currentYear"></span> TextSpeeder. All rights reserved.</span>
+      </nav>
+    </footer>
+  </div>
+
+  <!-- =======================================================
+       MAIN SCRIPT — Unified Logic (Flow / Sidebar / Modes)
+       ======================================================= -->
+  <script>
+  /* =======================================================
+     ⚡ TEXTSPEEDER v15 — MAIN SCRIPT
+     ======================================================= */
+
+  // ===== Update Footer Year =====
+  const yearEl = document.getElementById("currentYear");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // ===== Accessibility Sidebar Logic =====
+  const accessibilityFrame = document.getElementById("accessibilityFrame");
+  const accessibilityOverlay = document.getElementById("accessibilityOverlay");
+  const accessibilityToggle = document.getElementById("accessibilityToggle");
+  const closeAccessibility = document.getElementById("closeAccessibility");
+  const statusText = document.getElementById("accessibilityStatus");
+
+  if (accessibilityToggle && accessibilityFrame) {
+    accessibilityToggle.addEventListener("click", () => {
+      accessibilityFrame.classList.toggle("open");
+      accessibilityOverlay.style.display = accessibilityFrame.classList.contains("open")
+        ? "block"
+        : "none";
+    });
+  }
+
+  if (closeAccessibility) {
+    closeAccessibility.addEventListener("click", () => {
+      accessibilityFrame.classList.remove("open");
+      accessibilityOverlay.style.display = "none";
+    });
+  }
+
+  if (accessibilityOverlay) {
+    accessibilityOverlay.addEventListener("click", () => {
+      accessibilityFrame.classList.remove("open");
+      accessibilityOverlay.style.display = "none";
+    });
+  }
+
+  // ===== Accessibility Modes =====
+  document.querySelectorAll("[data-mode]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const mode = btn.getAttribute("data-mode");
-
-      // Remove any previous mode
       document.body.classList.remove(
         "accessible-mode",
         "colorblind-deuteranopia",
         "colorblind-protanopia",
         "colorblind-tritanopia"
       );
-
-      // Apply selected mode
       document.body.classList.add(mode);
-
-      // Update display text
       if (statusText)
         statusText.textContent = "Current Mode: " + btn.textContent.trim();
     });
   });
-}
 
-// Reset to default
-if (resetBtn) {
-  resetBtn.addEventListener("click", () => {
-    document.body.classList.remove(
-      "accessible-mode",
-      "colorblind-deuteranopia",
-      "colorblind-protanopia",
-      "colorblind-tritanopia"
-    );
-    if (statusText) statusText.textContent = "Current Mode: Default";
-  });
-}
+  const resetBtn = document.getElementById("resetAccessibility");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      document.body.classList.remove(
+        "accessible-mode",
+        "colorblind-deuteranopia",
+        "colorblind-protanopia",
+        "colorblind-tritanopia"
+      );
+      if (statusText) statusText.textContent = "Current Mode: Default";
+    });
+  }
 
-/* -----------------------------------------------
-   4. DARK / LIGHT THEME TOGGLE
------------------------------------------------ */
-const themeToggle = document.getElementById("themeToggle");
+  // ===== Dark/Light Theme Toggle =====
+  const themeToggle = document.getElementById("themeToggle");
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      if (document.body.classList.contains("dark-mode")) {
+        document.body.classList.remove("dark-mode");
+        document.body.classList.add("light-mode");
+      } else if (document.body.classList.contains("light-mode")) {
+        document.body.classList.remove("light-mode");
+        document.body.classList.add("dark-mode");
+      } else {
+        document.body.classList.add("dark-mode");
+      }
+    });
+  }
 
-if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
-    if (document.body.classList.contains("dark-mode")) {
-      document.body.classList.remove("dark-mode");
-      document.body.classList.add("light-mode");
-    } else if (document.body.classList.contains("light-mode")) {
-      document.body.classList.remove("light-mode");
-      document.body.classList.add("dark-mode");
-    } else {
-      // Default start: toggle dark mode if neither set
-      document.body.classList.add("dark-mode");
-    }
-  });
-}
+  // ===== Flow / RSVP Screen Switching =====
+  const flowScreen = document.getElementById("flowScreen");
+  const rsvpScreen = document.getElementById("rsvpScreen");
 
-/* -----------------------------------------------
-   5. FLOW / RSVP READING MODE SWITCHING
------------------------------------------------ */
-const flowScreen = document.getElementById("flowScreen");
-const rsvpScreen = document.getElementById("rsvpScreen");
+  const flowModeBtn = document.getElementById("flowModeBtn");
+  const flowHighlightBtn = document.getElementById("flowHighlightBtn");
+  const rsvpModeBtn = document.getElementById("rsvpModeBtn");
 
-const flowModeBtn = document.getElementById("flowModeBtn");
-const flowHighlightBtn = document.getElementById("flowHighlightBtn");
-const rsvpModeBtn = document.getElementById("rsvpModeBtn");
+  if (flowModeBtn)
+    flowModeBtn.addEventListener("click", () => {
+      flowScreen.classList.add("active");
+      rsvpScreen.classList.remove("active");
+      flowScreen.style.textDecoration = "none";
+    });
 
-// Flow Mode (default)
-if (flowModeBtn) {
-  flowModeBtn.addEventListener("click", () => {
-    flowScreen.classList.add("active");
-    rsvpScreen.classList.remove("active");
-    flowScreen.style.textDecoration = "none";
-  });
-}
+  if (flowHighlightBtn)
+    flowHighlightBtn.addEventListener("click", () => {
+      flowScreen.classList.add("active");
+      rsvpScreen.classList.remove("active");
+      flowScreen.style.textDecoration = "underline";
+    });
 
-// Flow + Highlight Mode
-if (flowHighlightBtn) {
-  flowHighlightBtn.addEventListener("click", () => {
-    flowScreen.classList.add("active");
-    rsvpScreen.classList.remove("active");
-    flowScreen.style.textDecoration = "underline";
-  });
-}
+  if (rsvpModeBtn)
+    rsvpModeBtn.addEventListener("click", () => {
+      flowScreen.classList.remove("active");
+      rsvpScreen.classList.add("active");
+    });
 
-// RSVP Mode
-if (rsvpModeBtn) {
-  rsvpModeBtn.addEventListener("click", () => {
-    flowScreen.classList.remove("active");
-    rsvpScreen.classList.add("active");
-  });
-}
+  // ===== Sidebar (Left Menu) =====
+  const sidebar = document.getElementById("sidebar");
+  const sidebarToggle = document.getElementById("sidebarToggle");
+  const closeSidebar = document.getElementById("closeSidebar");
 
-/* -----------------------------------------------
-   6. SIDEBAR MENU (LEFT SIDE)
------------------------------------------------ */
-const sidebar = document.getElementById("sidebar");
-const sidebarToggle = document.getElementById("sidebarToggle");
-const closeSidebar = document.getElementById("closeSidebar");
+  if (sidebar && sidebarToggle) {
+    sidebarToggle.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+    });
+  }
 
-if (sidebar && sidebarToggle) {
-  sidebarToggle.addEventListener("click", () => {
-    sidebar.classList.toggle("open");
-  });
-}
+  if (closeSidebar) {
+    closeSidebar.addEventListener("click", () => {
+      sidebar.classList.remove("open");
+    });
+  }
 
-if (closeSidebar) {
-  closeSidebar.addEventListener("click", () => {
-    sidebar.classList.remove("open");
-  });
-}
-
-/* -----------------------------------------------
-   7. DEBUG / LOGGING
------------------------------------------------ */
-console.log("✅ TextSpeeder v15 main script loaded successfully.");
-</script>
+  console.log("✅ TextSpeeder v15 fully loaded.");
+  </script>
+</body>
+</html>
