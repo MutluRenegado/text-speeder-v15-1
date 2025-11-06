@@ -4,49 +4,140 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>⚡ TextSpeeder v10.1</title>
-    <meta
-      name="description"
-      content="TextSpeeder v10.1 – Speed reading app with accessibility, consent, and theme support."
-    />
 
-    <!-- ✅ Optional: Tailwind first (if you use it) -->
+    <!-- ✅ Tailwind -->
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
 
-    <!-- ✅ Your custom CSS last, so it overrides Tailwind -->
     <link rel="stylesheet" href="style.min.css" />
   </head>
 
-  <body>
-    <!-- =======================================================
-         ⚡ MAIN APP INTERFACE
-         ======================================================= -->
+  <body class="bg-[#0b1120] text-gray-100">
     <div class="app-root max-w-[1280px] mx-auto min-h-screen flex flex-col">
-      <!-- === Sidebar (Hidden by default) === -->
-      <aside id="sidebar" class="sidebar hidden fixed top-0 left-0 h-full w-64 bg-[#020617] border-r border-gray-800 transition-transform duration-300 -translate-x-full z-40">
-        <div class="p-4 space-y-3 text-gray-200">
+      <!-- === Sidebar (Right Side) === -->
+      <aside
+        id="sidebar"
+        class="sidebar hidden fixed top-0 right-0 h-full w-64 bg-[#020617] border-l border-gray-800 transition-transform duration-300 translate-x-full z-40"
+      >
+        <div class="p-4 space-y-3 text-gray-200 overflow-y-auto h-full">
           <h2 class="text-sm uppercase tracking-wider text-gray-400">
             Navigation
           </h2>
-          <button class="block w-full text-left hover:text-cyan-400" onclick="goHome()">🏠 Home</button>
-          <button class="block w-full text-left hover:text-cyan-400" onclick="goProfile()">👤 Profile</button>
-          <button class="block w-full text-left hover:text-cyan-400" onclick="goLeaderboard()">🏆 Leaderboard</button>
-          <button id="closeSidebar" class="block w-full text-left text-red-400 mt-2">✖ Close</button>
+          <button
+            class="block w-full text-left hover:text-cyan-400"
+            onclick="goHome()"
+          >
+            🏠 Home
+          </button>
+          <button
+            class="block w-full text-left hover:text-cyan-400"
+            onclick="goProfile()"
+          >
+            👤 Profile
+          </button>
+          <button
+            class="block w-full text-left hover:text-cyan-400"
+            onclick="goLeaderboard()"
+          >
+            🏆 Leaderboard
+          </button>
+
+          <!-- ♿ Accessibility Section -->
+          <div class="mt-4 border-t border-gray-700 pt-4">
+            <h2 class="text-sm uppercase tracking-wider text-gray-400 mb-2">
+              Accessibility
+            </h2>
+            <button
+              id="accessibilitySidebarToggle"
+              class="block w-full text-left text-cyan-400 hover:text-cyan-300"
+            >
+              ♿ Open Accessibility
+            </button>
+
+            <!-- Accessibility Panel -->
+            <div
+              id="accessibilityPanel"
+              class="hidden mt-3 bg-[#0b1120] border border-gray-700 rounded-lg p-3 space-y-2"
+            >
+              <button
+                id="closeAccessibilitySidebar"
+                class="text-red-400 text-sm float-right"
+              >
+                ✖
+              </button>
+              <h3 class="font-semibold mb-1">Accessibility Options</h3>
+              <button
+                data-mode="accessible-mode"
+                class="block w-full text-left hover:text-cyan-400"
+              >
+                🟢 Accessible Mode
+              </button>
+              <button
+                data-mode="colorblind-deuteranopia"
+                class="block w-full text-left hover:text-cyan-400"
+              >
+                🟡 Deuteranopia
+              </button>
+              <button
+                data-mode="colorblind-protanopia"
+                class="block w-full text-left hover:text-cyan-400"
+              >
+                🔴 Protanopia
+              </button>
+              <button
+                data-mode="colorblind-tritanopia"
+                class="block w-full text-left hover:text-cyan-400"
+              >
+                🔵 Tritanopia
+              </button>
+              <button
+                id="resetAccessibility"
+                class="block w-full text-left text-sm text-gray-300 hover:text-cyan-400 mt-2"
+              >
+                Reset
+              </button>
+              <p id="accessibilityStatus" class="text-xs text-gray-400 mt-2">
+                Mode: Default
+              </p>
+            </div>
+          </div>
+
+          <button
+            id="closeSidebar"
+            class="block w-full text-left text-red-400 mt-4"
+          >
+            ✖ Close Sidebar
+          </button>
         </div>
       </aside>
 
-      <!-- === Sidebar Toggle === -->
+      <!-- === Sidebar Toggle Button (Right Side) === -->
       <button
         id="sidebarToggle"
-        class="fixed top-3 left-3 z-50 bg-[#020617] border border-gray-700 rounded-full px-3 py-1 text-sm text-gray-300 hover:text-cyan-400"
+        class="fixed top-3 right-3 z-50 bg-[#020617] border border-gray-700 rounded-full px-3 py-1 text-sm text-gray-300 hover:text-cyan-400"
       >
         ☰ Menu
       </button>
 
+      <!-- ✅ NEW: Floating Accessibility Handle -->
+      <button
+        id="accessibilityToggle"
+        class="fixed top-1/2 right-0 transform -translate-y-1/2 z-50 bg-[#020617] border border-gray-700 rounded-l-lg p-2 hover:bg-cyan-600 transition"
+        aria-label="Open Accessibility Menu"
+      >
+        <img
+          src="assets/handle/accessibility-handle.png"
+          alt="Accessibility Handle"
+          class="w-8 h-8"
+        />
+      </button>
+
       <!-- === Header === -->
-      <header class="top-bar flex items-center justify-between p-4 border-b border-gray-800">
+      <header
+        class="top-bar flex items-center justify-between p-4 border-b border-gray-800"
+      >
         <h1 class="text-xl font-semibold text-gray-100">⚡ TextSpeeder</h1>
         <button
           id="themeToggle"
@@ -64,91 +155,47 @@
         ></textarea>
 
         <div class="controls flex gap-2">
-          <button id="loadBtn" class="px-3 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-500">Load</button>
-          <button id="pauseBtn" class="px-3 py-2 bg-gray-700 text-gray-200 rounded-md hover:bg-gray-600">Pause</button>
-          <button id="startOverBtn" class="px-3 py-2 bg-gray-700 text-gray-200 rounded-md hover:bg-gray-600">Restart</button>
+          <button
+            id="loadBtn"
+            class="px-3 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-500"
+          >
+            Load
+          </button>
+          <button
+            id="pauseBtn"
+            class="px-3 py-2 bg-gray-700 text-gray-200 rounded-md hover:bg-gray-600"
+          >
+            Pause
+          </button>
+          <button
+            id="startOverBtn"
+            class="px-3 py-2 bg-gray-700 text-gray-200 rounded-md hover:bg-gray-600"
+          >
+            Restart
+          </button>
         </div>
 
-        <!-- === Two Reading Screens (stacked behind each other) === -->
-        <div class="relative w-full flex-1 rounded-lg border border-gray-800 overflow-hidden mt-4">
-          <section id="flowScreen" class="screen flow absolute inset-0 opacity-100 transition-opacity duration-300 flex items-center justify-center">
+        <div
+          class="relative w-full flex-1 rounded-lg border border-gray-800 overflow-hidden mt-4"
+        >
+          <section
+            id="flowScreen"
+            class="screen flow absolute inset-0 opacity-100 transition-opacity duration-300 flex items-center justify-center"
+          >
             <div id="marquee" class="text-3xl font-semibold text-cyan-400"></div>
           </section>
 
-          <section id="rsvpScreen" class="screen rsvp absolute inset-0 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+          <section
+            id="rsvpScreen"
+            class="screen rsvp absolute inset-0 opacity-0 transition-opacity duration-300 flex items-center justify-center"
+          >
             <div id="rsvpWord" class="text-3xl font-semibold text-cyan-400"></div>
           </section>
         </div>
       </main>
     </div>
 
-    <!-- ✅ Control buttons below the screens -->
-<div class="reader-controls">
-  <button id="pauseBtn">⏸️ Pause</button>
-  <button id="restartBtn">🔁 Start Over</button>
-  <button id="hideLinesBtn">🧾 Hide Lines</button>
-  <button id="hideScreenBtn">🕳️ Hide Screen</button>
-</div>
-    <!-- =======================================================
-         ♿ ACCESSIBILITY LAYER (With Custom Handle)
-         ======================================================= -->
-    <div id="accessibilityLayer">
-      <div id="accessibilityOverlay" class="accessibility-overlay"></div>
-
-      <div id="accessibilityFrame" class="accessibility-frame">
-        <div class="accessibility-panel">
-          <button
-            id="closeAccessibility"
-            class="close-btn"
-            aria-label="Close Accessibility Menu"
-          >
-            ✖
-          </button>
-          <h3>Accessibility Options</h3>
-
-          <button data-mode="accessible-mode">🟢 Accessible Mode</button>
-          <button data-mode="colorblind-deuteranopia">🟡 Deuteranopia</button>
-          <button data-mode="colorblind-protanopia">🔴 Protanopia</button>
-          <button data-mode="colorblind-tritanopia">🔵 Tritanopia</button>
-
-          <button id="resetAccessibility" class="reset-btn">Reset</button>
-          <p id="accessibilityStatus" class="status">Mode: Default</p>
-        </div>
-      </div>
-
-      <!-- ♿ Custom Accessibility Handle Button -->
-      <button
-        id="accessibilityToggle"
-        class="accessibility-toggle"
-        aria-label="Open Accessibility Menu"
-      >
-        <img
-          src="assets/handle/accessibility-handle.png"
-          alt="Accessibility Handle"
-          class="accessibility-icon"
-        />
-      </button>
-    </div>
-
-    <!-- =======================================================
-         🍪 CONSENT MANAGER
-         ======================================================= -->
-    <div id="consentBanner" class="consent-banner">
-      <div class="consent-content">
-        <p>
-          We use cookies to enhance your experience, analyze usage, and connect
-          with Google Tag Manager (GTM). You can choose to accept or reject.
-        </p>
-        <div class="consent-buttons">
-          <button id="acceptCookies">Accept</button>
-          <button id="rejectCookies" class="reject">Reject</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- =======================================================
-         🌐 FOOTER
-         ======================================================= -->
+    <!-- === Footer === -->
     <footer class="footer border-t border-gray-800 mt-8 p-4 text-center text-gray-400 text-sm">
       <nav class="footer-links space-x-2">
         <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/Licence" target="_blank" rel="noopener noreferrer">📜 License</a>
@@ -162,41 +209,63 @@
         <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/ReadMe" target="_blank" rel="noopener noreferrer">📖 ReadMe</a>
         <a href="https://github.com/MutluRenegado/text-speeder-docs/wiki/Contact" target="_blank" rel="noopener noreferrer">📬 Contact</a>
         <span class="footer-divider">|</span>
-        <span class="footer-copy"
-          >© TextSpeeder <span id="currentYear"></span>. All rights reserved.</span
-        >
+        <span class="footer-copy">© TextSpeeder <span id="currentYear"></span>. All rights reserved.</span>
       </nav>
     </footer>
 
-    <!-- =======================================================
-         📜 SCRIPTS
-         ======================================================= -->
-    <script src="accessibility.js"></script>
-    <script src="consent.js"></script>
+    <!-- === Scripts === -->
     <script>
-      // Footer year
-      document.getElementById("currentYear").textContent = new Date().getFullYear();
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
 
-      // Sidebar toggle
       const sidebar = document.getElementById("sidebar");
       const sidebarToggle = document.getElementById("sidebarToggle");
       const closeSidebar = document.getElementById("closeSidebar");
+      const handleButton = document.getElementById("accessibilityToggle");
 
+      // === Sidebar Toggle (☰ Button) ===
       sidebarToggle.addEventListener("click", () => {
-        sidebar.classList.toggle("-translate-x-full");
-        sidebar.classList.toggle("hidden");
+        sidebar.classList.remove("hidden");
+        sidebar.classList.toggle("translate-x-full");
       });
+
+      // === Floating Handle Toggle ===
+      handleButton.addEventListener("click", () => {
+        sidebar.classList.remove("hidden");
+        sidebar.classList.toggle("translate-x-full");
+      });
+
+      // === Close Sidebar ===
       closeSidebar.addEventListener("click", () => {
-        sidebar.classList.add("-translate-x-full");
-        setTimeout(() => sidebar.classList.add("hidden"), 250);
+        sidebar.classList.add("translate-x-full");
+        setTimeout(() => sidebar.classList.add("hidden"), 300);
       });
 
-      // Dummy nav actions
-      function goHome() { alert("Go to Home screen"); }
-      function goProfile() { alert("Go to Profile screen"); }
-      function goLeaderboard() { alert("Go to Leaderboard screen"); }
+      // === Accessibility Toggle in Sidebar ===
+      const accessToggle = document.getElementById("accessibilitySidebarToggle");
+      const accessPanel = document.getElementById("accessibilityPanel");
+      const closeAccess = document.getElementById("closeAccessibilitySidebar");
 
-      // Dual screen toggling logic example
+      accessToggle.addEventListener("click", () => {
+        accessPanel.classList.toggle("hidden");
+      });
+
+      closeAccess.addEventListener("click", () => {
+        accessPanel.classList.add("hidden");
+      });
+
+      // Dummy nav functions
+      function goHome() {
+        alert("Go to Home screen");
+      }
+      function goProfile() {
+        alert("Go to Profile screen");
+      }
+      function goLeaderboard() {
+        alert("Go to Leaderboard screen");
+      }
+
+      // Example flow toggle
       const flow = document.getElementById("flowScreen");
       const rsvp = document.getElementById("rsvpScreen");
       document.getElementById("pauseBtn").addEventListener("click", () => {
@@ -204,5 +273,9 @@
         rsvp.classList.toggle("opacity-100");
       });
     </script>
+
+    <script src="accessibility.js"></script>
+    <script src="consent.js"></script>
+    <script src="react.tsx"></script>
   </body>
 </html>
