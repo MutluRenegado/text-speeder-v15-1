@@ -84,35 +84,48 @@ export default function App() {
         </div>
       </header>
 
-  /* -------------------------
-   Sidebar open / close
+/* -------------------------
+   Sidebar open/close logic
 ------------------------- */
 const sidebar = document.getElementById('sidebar');
 const sidebarOverlay = document.getElementById('sidebarOverlay');
 const sidebarToggleHeader = document.getElementById('sidebarToggleHeader');
 const closeSidebarBtn = document.getElementById('closeSidebar');
+const accessibilityHandle = document.getElementById('accessibilityHandle');
+const accessibilityPanel = document.getElementById('accessibilityPanel');
 
-// open sidebar
 function openSidebar() {
   sidebar.classList.remove('translate-x-full');
   sidebarOverlay.classList.remove('hidden');
 }
 
-// close sidebar
 function closeSidebar() {
   sidebar.classList.add('translate-x-full');
   sidebarOverlay.classList.add('hidden');
+  accessibilityPanel.classList.add('hidden');
 }
 
-// toggle via hamburger button
-if (sidebarToggleHeader) {
-  sidebarToggleHeader.addEventListener('click', () => {
-    const isHidden = sidebar.classList.contains('translate-x-full');
-    if (isHidden) openSidebar();
-    else closeSidebar();
+/* === ☰ MENU BUTTON opens full sidebar === */
+sidebarToggleHeader.addEventListener('click', () => {
+  const isHidden = sidebar.classList.contains('translate-x-full');
+  if (isHidden) openSidebar();
+  else closeSidebar();
+});
+
+/* === ✖ Close or overlay click closes everything === */
+closeSidebarBtn.addEventListener('click', closeSidebar);
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+/* === ♿ Handle only toggles Accessibility Panel === */
+if (accessibilityHandle) {
+  accessibilityHandle.addEventListener('click', () => {
+    // open sidebar first if it's closed
+    openSidebar();
+    // ensure only the accessibility panel is visible
+    const isHidden = accessibilityPanel.classList.contains('hidden');
+    document.querySelectorAll('#sidebar nav > div > div').forEach(div => {
+      if (div.id !== 'accessibilityPanel') div.classList.add('hidden');
+    });
+    if (isHidden) accessibilityPanel.classList.remove('hidden');
   });
 }
-
-// close button and overlay
-if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
-if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
