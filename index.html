@@ -16,9 +16,7 @@
     <div class="max-w-[1280px] mx-auto min-h-screen flex flex-col">
 
       <!-- === Header === -->
-      <header
-        class="flex justify-between items-center px-4 py-3 border-b border-black"
-      >
+      <header class="flex justify-between items-center px-4 py-3 border-b border-black">
         <div class="flex items-center gap-2">
           <button
             class="w-8 h-8 flex items-center justify-center rounded-full bg-black text-white"
@@ -39,7 +37,6 @@
 
       <!-- === Main Content === -->
       <main class="flex-1 flex flex-col p-4 gap-4">
-
         <!-- 📝 Input Area -->
         <div class="relative">
           <textarea
@@ -121,19 +118,6 @@
           </section>
         </div>
 
-        <!-- ⚙️ Placeholder for accessibility handle -->
-        <button
-          id="accessibilityToggle"
-          class="fixed top-1/2 right-0 transform -translate-y-1/2 z-50 bg-[#C4144D] rounded-l-lg p-2 hover:bg-[#e02b63] transition"
-          aria-label="Open Accessibility Menu"
-        >
-          <img
-            src="assets/handle/accessibility-handle.png"
-            alt="Accessibility Handle"
-            class="w-8 h-8"
-          />
-        </button>
-
         <!-- 🧩 Control Panel -->
         <div class="grid grid-cols-7 gap-2 mt-6">
           <div class="bg-gray-300 text-center py-2">Font Color</div>
@@ -144,7 +128,6 @@
           <div class="bg-gray-300 text-center py-2">Select Mode</div>
           <div class="bg-gray-300 text-center py-2">Extras</div>
         </div>
-
       </main>
 
       <!-- === Footer === -->
@@ -153,9 +136,80 @@
       </footer>
     </div>
 
+    <!-- === Accessibility Sidebar === -->
+    <aside
+      id="accessibilitySidebar"
+      class="fixed top-0 right-0 h-full w-64 bg-[#0b1120] text-gray-100 transform translate-x-full transition-transform duration-300 border-l border-black z-50"
+    >
+      <div class="p-4 space-y-4 overflow-y-auto h-full">
+        <h2 class="text-lg font-bold text-[#2EE3D3] text-center uppercase tracking-wide">
+          ♿ Accessibility Options
+        </h2>
+
+        <button
+          id="accessibleMode"
+          class="w-full px-3 py-2 bg-[#C4144D] rounded-md text-white hover:bg-[#e02b63]"
+        >
+          🟢 Accessible Mode
+        </button>
+
+        <div class="border-t border-gray-700 pt-3 space-y-2">
+          <button
+            id="modeDeuteranopia"
+            class="w-full px-3 py-2 bg-[#C4144D] rounded-md text-white hover:bg-[#e02b63]"
+          >
+            🟡 Deuteranopia
+          </button>
+          <button
+            id="modeProtanopia"
+            class="w-full px-3 py-2 bg-[#C4144D] rounded-md text-white hover:bg-[#e02b63]"
+          >
+            🔴 Protanopia
+          </button>
+          <button
+            id="modeTritanopia"
+            class="w-full px-3 py-2 bg-[#C4144D] rounded-md text-white hover:bg-[#e02b63]"
+          >
+            🔵 Tritanopia
+          </button>
+        </div>
+
+        <button
+          id="resetAccessibility"
+          class="w-full px-3 py-2 bg-gray-300 rounded-md text-black hover:bg-gray-200"
+        >
+          Reset to Default
+        </button>
+
+        <p id="accessibilityStatus" class="text-xs text-gray-400 mt-2 text-center">
+          Current Mode: Default
+        </p>
+
+        <button
+          id="closeSidebar"
+          class="mt-6 w-full px-3 py-2 bg-[#C4144D] rounded-md text-white hover:bg-[#e02b63]"
+        >
+          ✖ Close
+        </button>
+      </div>
+    </aside>
+
+    <!-- === Accessibility Handle === -->
+    <button
+      id="accessibilityToggle"
+      class="fixed top-1/2 right-0 transform -translate-y-1/2 z-50 bg-[#C4144D] rounded-l-lg p-2 hover:bg-[#e02b63] transition"
+      aria-label="Open Accessibility Menu"
+    >
+      <img
+        src="assets/handle/accessibility-handle.png"
+        alt="Accessibility Handle"
+        class="w-8 h-8"
+      />
+    </button>
+
     <!-- === Scripts === -->
     <script>
-      // Toggle between flow / highlight / rsvp
+      // Mode switching
       const flowScreen = document.getElementById("flowScreen");
       const rsvpScreen = document.getElementById("rsvpScreen");
 
@@ -175,6 +229,39 @@
         flowScreen.classList.add("hidden");
         rsvpScreen.classList.remove("hidden");
       });
+
+      // Accessibility sidebar toggle
+      const sidebar = document.getElementById("accessibilitySidebar");
+      const toggle = document.getElementById("accessibilityToggle");
+      const closeSidebar = document.getElementById("closeSidebar");
+      const statusText = document.getElementById("accessibilityStatus");
+
+      toggle.addEventListener("click", () => {
+        sidebar.classList.toggle("translate-x-full");
+      });
+
+      closeSidebar.addEventListener("click", () => {
+        sidebar.classList.add("translate-x-full");
+      });
+
+      const modes = {
+        accessibleMode: "Accessible Mode",
+        modeDeuteranopia: "Deuteranopia",
+        modeProtanopia: "Protanopia",
+        modeTritanopia: "Tritanopia",
+      };
+
+      Object.keys(modes).forEach((id) => {
+        document.getElementById(id).addEventListener("click", () => {
+          statusText.textContent = "Current Mode: " + modes[id];
+        });
+      });
+
+      document
+        .getElementById("resetAccessibility")
+        .addEventListener("click", () => {
+          statusText.textContent = "Current Mode: Default";
+        });
     </script>
   </body>
 </html>
