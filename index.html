@@ -89,20 +89,20 @@
       </section>
 
       <!-- Controls row -->
-      <section class="grid grid-cols-12 gap-4 items-start">
-        <div class="col-span-3 space-y-2">
-          <div class="text-sm">Mode</div>
-          <select id="modeSelect" class="w-full p-2 rounded bg-gray-100">
-            <option value="flow">Flow</option>
-            <option value="rsvp">RSVP</option>
-          </select>
+    <div class="col-span-3 space-y-3">
+  <div class="flex items-center gap-2">
+    <span class="text-sm">Mode:</span>
+    <select id="modeSelect" class="p-2 rounded bg-gray-100 flex-1">
+      <option value="flow">Flow</option>
+      <option value="rsvp">RSVP</option>
+    </select>
+  </div>
 
-          <div class="mt-3 text-sm">Highlight (on/off)</div>
-          <label class="inline-flex items-center gap-2 mt-1">
-            <input id="highlightToggle" type="checkbox" checked />
-            <span class="text-sm">Enable highlight</span>
-          </label>
-        </div>
+  <div class="flex items-center gap-2">
+    <input id="highlightToggle" type="checkbox" checked />
+    <span class="text-sm">Enable highlight</span>
+  </div>
+</div>
 
         <div class="col-span-3">
           <div class="text-sm">WPM (words per minute)</div>
