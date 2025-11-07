@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import TextReader from "../components/UI/TextReader";
+import { useReader } from "../components/UI/useReader";
 
 // ---- TYPES ----
 export interface ReaderOptions {
