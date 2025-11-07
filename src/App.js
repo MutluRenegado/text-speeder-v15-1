@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./AppLayout.css";
-import ReadingSessionScreen from "./screens/ReadingSessionScreen"; // 👈 add this import
+import ReadingSessionScreen from "./screens/ReadingSessionScreen"; // ✅ import here
 
 export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
   const [glowActive, setGlowActive] = useState(false);
-  const [vaultText, setVaultText] = useState(""); // invisible vault
-  const [displayText, setDisplayText] = useState(""); // text flowing in main content
+  const [vaultText, setVaultText] = useState("");
+  const [displayText, setDisplayText] = useState("");
   const [isFlowing, setIsFlowing] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -28,7 +28,7 @@ export default function App() {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => setVaultText(e.target?.result as string);
+      reader.onload = (e) => setVaultText((e.target?.result as string) || "");
       reader.readAsText(file);
     }
   };
@@ -36,7 +36,7 @@ export default function App() {
   // Load text from vault to main display (smooth flow)
   const handleLoadText = () => {
     if (!vaultText) return;
-    setDisplayText(""); // reset
+    setDisplayText("");
     setIsFlowing(true);
     let i = 0;
     const interval = setInterval(() => {
@@ -46,24 +46,16 @@ export default function App() {
         clearInterval(interval);
         setIsFlowing(false);
       }
-    }, 15); // adjust speed: smaller = faster
+    }, 15);
   };
 
+  // ✅ everything below is inside the `return`
   return (
     <div
       className={`app-root ${
         isAccessibilityOpen ? "accessibility-active" : ""
       }`}
     >
-      {/* Invisible vault */}
-      <div className="invisible-upload-layer">
-        <textarea
-          className="invisible-text-store"
-          value={vaultText}
-          readOnly
-        />
-      </div>
-
       {/* HEADER */}
       <header className="top-bar">
         <div className="top-left">
@@ -90,8 +82,6 @@ export default function App() {
       <aside className={`sidebar ${isSidebarOpen ? "sidebar-open" : ""}`}>
         <div className="sidebar-content">
           <div className="sidebar-title">Menu</div>
-
-          {/* Upload button */}
           <label
             htmlFor="fileUpload"
             className={`menu-btn upload-label ${
@@ -107,8 +97,6 @@ export default function App() {
             onChange={handleFileUpload}
             className={`upload-input ${isSidebarOpen ? "" : "hidden"}`}
           />
-
-          {/* Load button */}
           <button
             className={`menu-btn ${glowActive ? "glow-pink" : ""} ${
               isSidebarOpen ? "" : "hidden"
@@ -117,49 +105,8 @@ export default function App() {
           >
             Load Text
           </button>
-
-          <button
-            className={`menu-btn ${glowActive ? "glow-pink" : ""} ${
-              isSidebarOpen ? "" : "hidden"
-            }`}
-          >
-            Home
-          </button>
-          <button
-            className={`menu-btn ${glowActive ? "glow-pink" : ""} ${
-              isSidebarOpen ? "" : "hidden"
-            }`}
-          >
-            Profile
-          </button>
         </div>
       </aside>
-
-      {/* ACCESSIBILITY HANDLE */}
-      <img
-        src="https://raw.githubusercontent.com/MutluRenegado/text-speeder-v15-1/main/assets/handle/accessibility-handle.png"
-        alt="Accessibility handle"
-        className="accessibility-handle"
-        onClick={toggleAccessibility}
-      />
-
-      {/* ACCESSIBILITY PANEL */}
-      <div
-        className={`accessibility-panel ${
-          isAccessibilityOpen ? "open" : ""
-        }`}
-      >
-        <h3>Accessibility Mode</h3>
-        <div className="accessibility-options">
-          <button className={glowActive ? "glow-teal" : ""}>
-            Increase Text Size
-          </button>
-          <button className={glowActive ? "glow-teal" : ""}>
-            High Contrast
-          </button>
-          <button className={glowActive ? "glow-teal" : ""}>Dark Mode</button>
-        </div>
-      </div>
 
       {/* MAIN CONTENT */}
       <main className="main-content">
@@ -170,7 +117,7 @@ export default function App() {
         </p>
         {isFlowing && <div className="flow-indicator">⏳ Flowing...</div>}
 
-        {/* 🧪 Temporary reader test in center */}
+        {/* 🧪 Test Reader in the middle */}
         <div
           style={{
             display: "flex",
