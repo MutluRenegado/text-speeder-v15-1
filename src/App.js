@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./AppLayout.css";
+import ReadingSessionScreen from "./screens/ReadingSessionScreen"; // 👈 add this import
 
 export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -23,11 +24,11 @@ export default function App() {
   }, []);
 
   // Handle file upload into vault
-  const handleFileUpload = (event) => {
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => setVaultText(e.target.result || "");
+      reader.onload = (e) => setVaultText(e.target?.result as string);
       reader.readAsText(file);
     }
   };
@@ -164,38 +165,37 @@ export default function App() {
       <main className="main-content">
         <h2>Welcome to Text Speeder</h2>
         <p>
-          {displayText || "Upload a text file and click 'Load Text' to start flowing..."}
+          {displayText ||
+            "Upload a text file and click 'Load Text' to start flowing..."}
         </p>
         {isFlowing && <div className="flow-indicator">⏳ Flowing...</div>}
+
+        {/* 🧪 Temporary reader test in center */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "3rem",
+            backgroundColor: "#0b1120",
+          }}
+        >
+          <div
+            style={{
+              border: "2px solid #27d0c6",
+              borderRadius: "12px",
+              padding: "2rem",
+              width: "700px",
+              maxWidth: "90%",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.4)",
+            }}
+          >
+            <ReadingSessionScreen />
+          </div>
+        </div>
       </main>
 
       <footer className="footer">© 2025 Text Speeder v15.1</footer>
     </div>
   );
 }
-
-
-{/* 🧪 Temporary reader test in center */}
-<div
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "70vh",
-    backgroundColor: "#0b1120",
-  }}
->
-  <div
-    style={{
-      border: "2px solid #27d0c6",
-      borderRadius: "12px",
-      padding: "2rem",
-      width: "700px",
-      maxWidth: "90%",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.4)",
-    }}
-  >
-    <ReadingSessionScreen />
-  </div>
-</div>
-
