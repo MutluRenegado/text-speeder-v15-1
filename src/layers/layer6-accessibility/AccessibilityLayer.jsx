@@ -1,26 +1,10 @@
-// src/layers/layer6-accessibility/AccessibilityLayer.jsx
-
-import { useState } from "react";
-import "./AccessibilityLayer.css";
-
 export default function AccessibilityLayer() {
-  const [open, setOpen] = useState(false);
-
   return (
-    <>
-      {/* TOGGLE (can be triggered by handle later) */}
-      <div
-        className="accessibility-toggle"
-        onClick={() => setOpen(!open)}
-      >
-        ♿
+    <div className="layer layer-a11y" role="region" aria-label="Accessibility">
+      <div className="a11y-bar">
+        <span className="a11y-dot" aria-hidden="true" />
+        <span className="a11y-text">Accessibility Layer (reserved)</span>
       </div>
-
-      {/* PANEL */}
-      <aside className={`accessibility-layer ${open ? "open" : ""}`}>
-        <h3>Accessibility</h3>
-        <p>Options go here</p>
-      </aside>
-    </>
+    </div>
   );
 }
