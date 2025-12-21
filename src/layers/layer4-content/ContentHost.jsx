@@ -1,28 +1,45 @@
-// src/layers/layer4-content/ContentHost.jsx
+import Intro from "../../pages/Intro/Intro";
+import WelcomeScreen from "../../pages/Welcome/WelcomeScreen";
+import Slide from "../../components/Slide/Slide";
 
-import "./ContentHost.css";
-
-export default function ContentHost({ view, setView }) {
+export default function ContentHost({ view, onNavigate }) {
   return (
-    <div className="app-frame">
-      {/* MAIN CONTENT */}
-      <main className="main-content">
-        {/* TEMP PLACEHOLDER — replace with Input / Reader */}
-        <h1 style={{ color: "white" }}>Main App Loaded</h1>
-        <p style={{ color: "#a3a7b7" }}>
-          View: {view}
-        </p>
-      </main>
+    <main className="layer layer-content" role="main">
+      {view === "intro" && (
+        <Intro onContinue={() => onNavigate("welcome")} />
+      )}
 
-      {/* FOOTER */}
-      <footer className="footer-area">
-        {/* Footer controls go here */}
-      </footer>
+      {view === "welcome" && (
+        <WelcomeScreen
+          onStart={() => onNavigate("app")}
+          onTest={() => onNavigate("test")}
+          onBackToIntro={() => onNavigate("intro")}
+        />
+      )}
 
-      {/* ALWAYS-VISIBLE HANDLE */}
-      <div className="asset-handle">
-        ☰
-      </div>
-    </div>
+      {view === "app" && (
+        <Slide>
+          <div className="screen-placeholder">
+            <h2>App Screen (Phase 7 placeholder)</h2>
+            <p>This is where TextSpeeder core app will live.</p>
+            <button className="btn" onClick={() => onNavigate("welcome")}>
+              Back to Welcome
+            </button>
+          </div>
+        </Slide>
+      )}
+
+      {view === "test" && (
+        <Slide>
+          <div className="screen-placeholder">
+            <h2>Test Screen (Phase 7 placeholder)</h2>
+            <p>Demo / test mode goes here.</p>
+            <button className="btn" onClick={() => onNavigate("welcome")}>
+              Back to Welcome
+            </button>
+          </div>
+        </Slide>
+      )}
+    </main>
   );
 }
