@@ -1,5 +1,3 @@
-// src/App.jsx
-
 import { useEffect, useState } from "react";
 
 import Background from "./layers/layer1-background/Background";
@@ -9,12 +7,10 @@ import ContentHost from "./layers/layer4-content/ContentHost";
 import GlobalUI from "./layers/layer5-global-ui/GlobalUI";
 import AccessibilityLayer from "./layers/layer6-accessibility/AccessibilityLayer";
 
-import IntroScreen from "./pages/Intro/Intro";
-import WelcomeScreen from "./pages/Welcome/WelcomeScreen";
-
 import { getInitialTheme, applyTheme } from "./state/themeState";
 
 export default function App() {
+  // intro → welcome → app/test (local only)
   const [view, setView] = useState("intro");
   const [theme, setTheme] = useState(getInitialTheme());
 
@@ -24,36 +20,18 @@ export default function App() {
 
   return (
     <>
-      {/* LAYERS ONLY AFTER INTRO */}
-      {view !== "intro" && (
-        <>
-          <Background />
-          <Overlay />
-          <Texture />
-        </>
-      )}
+      {/* GLOBAL LAYERS (always present, fixed order) */}
+      <Background />
+      <Overlay />
+      <Texture />
 
-      {/* FLOW */}
-      {view === "intro" && (
-        <IntroScreen onContinue={() => setView("welcome")} />
-      )}
+      {/* CONTENT HOST owns screens */}
+      <ContentHost
+        view={view}
+        onNavigate={setView}
+      />
 
-      {view === "welcome" && (
-        <WelcomeScreen
-          onStartApp={() => setView("input")}
-          onTestApp={() => setView("input")}
-          onDocs={() =>
-            window.open("https://textspeeder.online/docs", "_blank")
-          }
-          onLogin={() => alert("Login will be added")}
-        />
-      )}
-
-      {view !== "intro" && view !== "welcome" && (
-        <ContentHost view={view} setView={setView} />
-      )}
-
-      {/* TOP / FLOATING UI */}
+      {/* GLOBAL UI & ACCESSIBILITY always on top of content */}
       <GlobalUI theme={theme} setTheme={setTheme} />
       <AccessibilityLayer />
     </>
